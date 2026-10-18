@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.7.0](https://github.com/DevBy-Default/reverse_engg/compare/rea-agents-6.6.0...rea-agents-6.7.0) (2026-10-18)
+
+
+### Features
+
+* harden development runtime, add Windows native fallback, and establish production documentation ([3e9040a](https://github.com/DevBy-Default/reverse_engg/commit/3e9040a90981e99b5a7018e32c1c091265187d7a))
+
 ## [6.6.0](https://github.com/morluto/rea/compare/rea-agents-6.5.0...rea-agents-6.6.0) (2026-10-18)
 
 ### Highlights
