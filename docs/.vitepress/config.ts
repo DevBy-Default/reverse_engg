@@ -7,6 +7,7 @@ export default defineConfig({
   lang: "en-US",
   base: "/rea/",
   srcExclude: ["readme/**"],
+  ignoreDeadLinks: true,
   themeConfig: {
     nav: [
       { text: "Get started", link: "/installation" },

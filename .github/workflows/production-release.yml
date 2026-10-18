@@ -1,0 +1,60 @@
+name: Production Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release Tag (e.g. v6.6.0)"
+        required: true
+        default: "v6.6.0"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build & Publish Release
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install Locked Dependencies
+        run: npm ci
+
+      - name: Run Typecheck & Lint
+        run: npm run check:fast
+
+      - name: Compile Runtime
+        run: npm run compile
+
+      - name: Build Artifacts & Skills
+        run: npm run build:cached
+
+      - name: Build Production Documentation
+        run: npm run docs:build
+
+      - name: Package Distributable Archive
+        run: |
+          mkdir -p release-artifacts
+          npm pack --pack-destination release-artifacts
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: release-artifacts/*.tgz
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

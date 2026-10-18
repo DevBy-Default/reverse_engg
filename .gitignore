@@ -6,6 +6,8 @@ __pycache__/
 # Distribution
 dist/
 build/
+release-artifacts/
+*.tgz
 node_modules
 *.egg-info/
 *.egg

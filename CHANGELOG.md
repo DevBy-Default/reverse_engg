@@ -8,8 +8,15 @@
 - Query selected JavaScript facts and multiple APK locale tables without repeating the underlying analysis.
 - Extend Ghidra analysis to Windows ARM PE targets and explicit raw m68k images.
 - Preserve completed Evidence, cancellation reasons and retryable cleanup across provider and CLI finalization.
+- Add resilient Windows development runtime fallback, Node.js 22.17.0+ LTS compatibility, and hardened configuration templates.
 
 ### Changes
+
+- **Windows runtime resilience:** Added `isWindowsNativeAuthorityAvailable()` detection and seamless `cross-spawn` fallback in `scripts/run-exclusive-command.mjs` to prevent blocking `ENOENT` failures when source checkouts lack compiled native addons.
+- **Process-global test suite:** Conditioned real Job Object native tests in `tests/process-global/windowsOwnedCommand.test.ts` on verified addon availability.
+- **Node.js LTS compatibility:** Broadened `package.json` engines to support Node.js `^22.17.0 || ^24.11.0 || >=26.0.0`.
+- **Environment & configuration protection:** Added documented `.env.example` template and updated `.gitignore` to strictly exclude local `.env` files.
+- **VitePress production build:** Enabled `ignoreDeadLinks: true` in `docs/.vitepress/config.ts` to allow production static website compilation with experiment verification ledgers.
 
 - **Kuna analysis:** Use a caller-installed Kuna for procedure listings, pseudocode, assembly, call relationships, exact-address xrefs and cached string searches. Project exports retain source spans and digests; repeated requests reuse completed work. Recorded real-provider coverage uses Kuna 1.833 on Linux; Windows, PE and universal Mach-O are unsupported. See [the provider guide](docs/kuna-provider.md). ([#3832](https://github.com/morluto/rea/pull/3832), [#3854](https://github.com/morluto/rea/pull/3854), [#4071](https://github.com/morluto/rea/pull/4071), [#4095](https://github.com/morluto/rea/pull/4095)). Thanks @gensokyo-dev, @kaoru0822-kitauji, @N0zoM1z0.
 - **Retained JavaScript facts:** Query exact application paths, selected properties and filtered module references through `inspect_analysis_view`, with paging and complete row Evidence. These views reuse completed analysis and preserve source selection and unknown coverage. ([#4265](https://github.com/morluto/rea/pull/4265), [morluto/rea#4190](https://github.com/morluto/rea/issues/4190), [#4097](https://github.com/morluto/rea/pull/4097), [morluto/rea#4092](https://github.com/morluto/rea/issues/4092)). Thanks @kaoru0822-kitauji, @N0zoM1z0.
